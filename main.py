@@ -12,9 +12,9 @@ import os
 import functions_framework
 
 # Configurações das variáveis de ambiente
-EMAIL_REMETENTE = os.environ.get('EMAIL_REMETENTE')
-SENHA_APP = os.environ.get('SENHA_APP')
-EMAILS_DESTINATARIOS = os.environ.get('EMAILS_DESTINATARIOS', '').split(',')
+EMAIL_REMETENTE = os.environ.get('automacaoguilherme03@gmail.com')
+SENHA_APP = os.environ.get('fnou eapp pwvq ktox')
+EMAILS_DESTINATARIOS = os.environ.get('guilhermenunesfev26@gmail.com', '').split(',')
 
 def verificar_periodo_execucao():
     """Verifica se deve executar baseado no mês atual"""
@@ -30,7 +30,7 @@ def verificar_periodo_execucao():
 
 def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
     """Coleta dados dos vereadores do site oficial"""
-    print(f"📊 Coletando dados de {mes_inicio:02d}/{ano} até {mes_fim:02d}/{ano}...")
+    print(f" Coletando dados de {mes_inicio:02d}/{ano} até {mes_fim:02d}/{ano}...")
     dados = []
     
     for vmes in range(mes_inicio, mes_fim + 1):
@@ -60,7 +60,7 @@ def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
             
             name_list = soup.find('body')
             if not name_list:
-                print(f"  ⚠️  Nenhum conteúdo encontrado para {mes}/{ano}")
+                print(f"    Nenhum conteúdo encontrado para {mes}/{ano}")
                 continue
             
             for tr in name_list.find_all('tr'):
