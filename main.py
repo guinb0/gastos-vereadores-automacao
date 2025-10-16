@@ -21,12 +21,8 @@ def verificar_periodo_execucao():
     mes_atual = datetime.now().month
     ano_atual = datetime.now().year
     
-    if mes_atual == 8:  # Agosto - Primeiro Semestre
-        return True, 1, 6, f"1_Semestre_{ano_atual}", f"Primeiro Semestre de {ano_atual}"
-    elif mes_atual == 12:  # Dezembro - Ano Completo
-        return True, 1, 12, f"Ano_Completo_{ano_atual}", f"Ano Completo de {ano_atual}"
-    else:
-        return False, None, None, None, None
+    # TESTE: Forçar execução
+    return True, 1, 10, f"Teste_{ano_atual}", f"Teste de Execução {ano_atual}"
 
 def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
     """Coleta dados dos vereadores do site oficial"""
