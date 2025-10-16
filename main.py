@@ -11,7 +11,7 @@ from email import encoders
 import os
 import functions_framework
 
-# Configurações das variáveis de ambiente
+# Configurações das variáveis de ambiente - CORRETO!
 EMAIL_REMETENTE = os.environ.get('automacaoguilherme03@gmail.com')
 SENHA_APP = os.environ.get('fnou eapp pwvq ktox')
 EMAILS_DESTINATARIOS = os.environ.get('guilhermenunesfev26@gmail.com', '').split(',')
@@ -26,7 +26,7 @@ def verificar_periodo_execucao():
 
 def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
     """Coleta dados dos vereadores do site oficial"""
-    print(f" Coletando dados de {mes_inicio:02d}/{ano} até {mes_fim:02d}/{ano}...")
+    print(f"📊 Coletando dados de {mes_inicio:02d}/{ano} até {mes_fim:02d}/{ano}...")
     dados = []
     
     for vmes in range(mes_inicio, mes_fim + 1):
@@ -56,7 +56,7 @@ def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
             
             name_list = soup.find('body')
             if not name_list:
-                print(f"    Nenhum conteúdo encontrado para {mes}/{ano}")
+                print(f"  ⚠️  Nenhum conteúdo encontrado para {mes}/{ano}")
                 continue
             
             for tr in name_list.find_all('tr'):
@@ -131,10 +131,10 @@ def coletar_dados_vereadores(ano, mes_inicio, mes_fim):
                             start += 1
         
         except Exception as e:
-            print(f"   Erro ao processar {mes}/{ano}: {str(e)}")
+            print(f"  ✗ Erro ao processar {mes}/{ano}: {str(e)}")
             continue
     
-    print(f" Total coletado: {len(dados)} registros")
+    print(f"✓ Total coletado: {len(dados)} registros")
     return dados
 
 def criar_excel(dados, nome_arquivo):
@@ -149,7 +149,7 @@ def criar_excel(dados, nome_arquivo):
     temp_file = f"/tmp/{nome_arquivo}.xlsx"
     df.to_excel(temp_file, index=False, engine='openpyxl')
     
-    print(f" Excel gerado: {len(df)} registros")
+    print(f"✓ Excel gerado: {len(df)} registros")
     return temp_file
 
 def enviar_email(arquivo, periodo_descricao):
@@ -160,7 +160,7 @@ def enviar_email(arquivo, periodo_descricao):
     if not SENHA_APP:
         raise Exception("Senha de aplicativo não configurada")
     
-    print(f" Enviando email para {len(EMAILS_DESTINATARIOS)} destinatário(s)...")
+    print(f"📧 Enviando email para {len(EMAILS_DESTINATARIOS)} destinatário(s)...")
     
     # Montar mensagem
     msg = MIMEMultipart()
@@ -171,7 +171,7 @@ def enviar_email(arquivo, periodo_descricao):
     corpo = f"""
     <html>
     <body style="font-family: Arial, sans-serif;">
-        <h2 style="color: #2c3e50;"> Relatório de Gastos dos Vereadores</h2>
+        <h2 style="color: #2c3e50;">📊 Relatório de Gastos dos Vereadores</h2>
         <p>Segue em anexo o relatório de gastos dos vereadores referente ao período:</p>
         <p style="font-size: 18px; font-weight: bold; color: #3498db;">{periodo_descricao}</p>
         <hr style="border: 1px solid #ecf0f1;">
@@ -205,13 +205,13 @@ def enviar_email(arquivo, periodo_descricao):
         servidor.send_message(msg)
         servidor.quit()
         
-        print(f" Email enviado com sucesso!")
+        print(f"✓ Email enviado com sucesso!")
         for email in EMAILS_DESTINATARIOS:
-            print(f"   {email}")
+            print(f"  → {email}")
         
         return True
     except Exception as e:
-        print(f" Erro ao enviar email: {str(e)}")
+        print(f"✗ Erro ao enviar email: {str(e)}")
         raise
 
 @functions_framework.http
@@ -233,7 +233,7 @@ def processar_gastos(request):
         if not deve_executar:
             mes_atual = datetime.now().strftime('%B')
             mensagem = f"Script não deve executar em {mes_atual}. Aguardando Agosto ou Dezembro."
-            print(f"  {mensagem}")
+            print(f"⚠️  {mensagem}")
             return {
                 'status': 'skipped',
                 'message': mensagem,
@@ -273,7 +273,7 @@ def processar_gastos(request):
         }
         
         print("\n" + "=" * 60)
-        print(" PROCESSO CONCLUÍDO COM SUCESSO!")
+        print("✅ PROCESSO CONCLUÍDO COM SUCESSO!")
         print("=" * 60)
         print(f"Período: {periodo_descricao}")
         print(f"Registros: {len(dados)}")
@@ -289,7 +289,7 @@ def processar_gastos(request):
         }
         
         print("\n" + "=" * 60)
-        print(" ERRO NA EXECUÇÃO")
+        print("❌ ERRO NA EXECUÇÃO")
         print("=" * 60)
         print(f"Erro: {str(e)}")
         
